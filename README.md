@@ -6,6 +6,8 @@
   in terms of performance and features.
 </p>
 
+<br/>
+
 <table align=center>
 <thead>
   <tr><th>New features</th></tr>
