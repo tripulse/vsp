@@ -3,5 +3,5 @@
 <p align=center>
   Simple, fast and lightweight spectrum visualiser made in C.
   It is a successor of <a href="https://github.com/tripulse/vspectro">vspectro</a>
-  in terms of performance and features.
+  in terms of performance and features. See the [wiki](https://github.com/tripulse/vsp/wiki) for more info.
 </p>
