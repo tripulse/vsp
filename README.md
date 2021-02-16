@@ -5,17 +5,3 @@
   It is a successor of <a href="https://github.com/tripulse/vspectro">vspectro</a>
   in terms of performance and features.
 </p>
-
-<br/>
-<br/>
-<br/>
-
-<table>
-<thead>
-  <tr><th>New features</th></tr>
-</thead>
-<tbody>
-  <tr><td>Scaling frequency bin values up with <kbd>↑</kbd> and down with <kbd>↓</kbd></td></tr>
-  <tr><td>Logarithmic scaling of frequencies on the X-axis</td></tr>
-</tbody>
-</table>
