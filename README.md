@@ -7,8 +7,13 @@
 </p>
 
 <br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
-<table align=center>
+<table>
 <thead>
   <tr><th>New features</th></tr>
 </thead>
