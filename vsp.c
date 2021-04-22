@@ -49,8 +49,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    vsp_render_ctx_audio_init(&rndctx, clopts.sample_winsize);
-
     rndctx.fore = clopts.fore;
     rndctx.back = clopts.back;
 
