@@ -7,4 +7,4 @@ executable('vsp', 'vsp.c', dependencies : [
         link_with : static_library('argparse', 'argparse/argparse.c'),
         include_directories : include_directories('argparse')),
     meson.get_compiler('c').find_library('m', required : false)
-])
+], install : true)
