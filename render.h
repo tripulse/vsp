@@ -45,8 +45,10 @@ void vsp_render_callback(struct vsp_render_context* ctx, Uint8* stream, int len)
     const float log_xs_pc0 = (width-1.f) / (log10f(ctx->samplerate / 2) - MIN_LOG_FREQUENCY);
     const float log_xs_pc1 = (float)ctx->samplerate / ctx->sample_winsize;
 
+    const size_t imag_beg = ctx->sample_winsize - 1;
+
     for(size_t i = 0; i < ctx->dft_outsize; ++i) {
-        float y = fabsf(ctx->dft_out[i]) / ctx->dft_outsize,
+        float y = hypot(ctx->dft_out[imag_beg - i], ctx->dft_out[i]) / ctx->sample_winsize,
               f = i * log_xs_pc1;
 
         ctx->points[i] = (SDL_Point)
