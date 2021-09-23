@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
     rndctx.sample_winsize = clopts.sample_winsize;
     rndctx.dft_outsize = rndctx.sample_winsize / 2 + 1;
-    rndctx.points = malloc(rndctx.dft_outsize * sizeof(SDL_Point));
+    rndctx.rects = malloc(rndctx.dft_outsize * sizeof(SDL_FRect));
 
     rndctx.sample_win = fftwf_alloc_real(rndctx.sample_winsize * sizeof(float));
     rndctx.dft_out = fftwf_alloc_real(rndctx.sample_winsize);
@@ -96,5 +96,5 @@ int main(int argc, char** argv) {
     fftwf_destroy_plan(rndctx.dft_calc);
     fftwf_free(rndctx.sample_win);
     fftwf_free(rndctx.dft_out);
-    free(rndctx.points);
+    free(rndctx.rects);
 }
