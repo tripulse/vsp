@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include <SDL2/SDL.h>
 #include <argparse/argparse.h>
@@ -16,6 +17,9 @@ struct vsp_cli_options {
 
     unsigned init_width;
     unsigned init_height;
+
+    bool list_devs;
+    int cap_dev;
 };
 
 void vsp_cli_parse_SDL_Color(const char* str, SDL_Color* out) {
@@ -41,6 +45,8 @@ void vsp_cli_parse_options(struct vsp_cli_options* opts, int argc, const char** 
     const char *foreg = NULL,
                *backg = NULL;
 
+    opts->cap_dev         = -1;
+    opts->list_devs       = false;
     opts->samplerate      = 0; // let SDL choose.
     opts->sample_winsize  = 8192;
     opts->audio_bufsize   = 512;
@@ -53,8 +59,10 @@ void vsp_cli_parse_options(struct vsp_cli_options* opts, int argc, const char** 
     struct argparse_option cli_opts[] = {
         OPT_HELP(),
         OPT_GROUP("Audio Options"),
+        OPT_INTEGER('d', "device", &opts->cap_dev, "index of the capture device", NULL, 0, 0),
         OPT_INTEGER('r', "rate", &opts->samplerate, "desired samplerate of audio", NULL, 0, 0),
         OPT_INTEGER('s', "size", &opts->sample_winsize, "number of samples to analyse at once", NULL, 0, 0),
+        OPT_BOOLEAN('\0', "list-devices", &opts->list_devs, "list available devices", NULL, 0, 0),
         OPT_INTEGER('\0', "audio-bufsize", &opts->audio_bufsize, "size of the SDL audio buffer", NULL, 0, 0),
         OPT_FLOAT('\0', "max-volume", &opts->init_max_volume, "initial maximum displayed volume", NULL, 0, 0),
 

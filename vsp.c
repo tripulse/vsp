@@ -12,7 +12,19 @@ int main(int argc, char** argv) {
 
     vsp_cli_parse_options(&clopts, argc, argv);
 
-    aud = SDL_OpenAudioDevice(NULL, 1,
+    if(clopts.list_devs) {
+        printf("list of capture devices:\n"
+               "    [index]    [name]\n");
+
+        int num_devs = SDL_GetNumAudioDevices(1);
+        for(int i = 0; i < num_devs; ++i)
+            printf("    %6d      %s\n", i, SDL_GetAudioDeviceName(i, 1));
+
+        exit(EXIT_SUCCESS);
+    }
+
+    aud = SDL_OpenAudioDevice(
+                SDL_GetAudioDeviceName(clopts.cap_dev, 1), 1,
                 &(SDL_AudioSpec) {
                     .freq     = clopts.samplerate,
                     .format   = AUDIO_F32,
@@ -65,10 +77,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    rndctx.rend = SDL_CreateRenderer(
-            rndctx.win, -1,
-            SDL_RENDERER_ACCELERATED);
-
+    rndctx.rend = SDL_CreateRenderer(rndctx.win, -1, SDL_RENDERER_ACCELERATED);
     if(rndctx.rend == NULL) {
         fprintf(stderr, "error: opening SDL renderer: %s", SDL_GetError());
         exit(1);
@@ -77,8 +86,8 @@ int main(int argc, char** argv) {
     SDL_PauseAudioDevice(aud, 0);
 
     // handles the close event and scales up/down the spectrum.
-    //      Key Up:   Scales down
-    //      Key Down: Scales up
+    //      key up:   scales down
+    //      key down: scales up
     for(SDL_Event e; SDL_WaitEvent(&e);) {
         if(e.type == SDL_QUIT) break;
         else if(e.type == SDL_KEYDOWN)
