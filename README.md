@@ -84,5 +84,5 @@ If passed index is not in that list, it falls back to default.
 - No windowing function is applied on the incoming samples, spectral leakage might occur.
 - Frequency spectrum starts at 20hZ (TODO: limit to 20000hZ, max).
 
-[1]: about:blank
+[1]: https://github.com/tripulse/vspectro
 [2]: https://en.wikipedia.org/wiki/Discrete_Fourier_transform
