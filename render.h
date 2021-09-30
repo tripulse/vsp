@@ -33,21 +33,20 @@ void vsp_render_callback(struct vsp_render_context* ctx, Uint8* stream, int len)
     int width, height;
     SDL_GetWindowSize(ctx->win, &width, &height);
 
-    // 20 hZ as the hardcoded limit
     const static float LOG_MIN = 1.3010299956639813f;
-    const size_t begin_bin = (float)ctx->sample_winsize / ctx->samplerate * 20.f; 
+    const float bin_scale = width / 3; // log(20000) - log(20) = 3
+    const float freq_coeff = (float)ctx->samplerate / ctx->sample_winsize;
 
-    // precalculations to save some CPU cycles, premature optimization?
-    const float pc0_ = (width-1.f) / (log10f(ctx->samplerate / 2) - LOG_MIN);
-    const float freq_c = (float)ctx->samplerate / ctx->sample_winsize;
+    const size_t begin_bin = (float)ctx->sample_winsize / ctx->samplerate * 20.f;
+    const size_t end_bin = (float)ctx->sample_winsize / ctx->samplerate * 20000.f; 
 
     // beginning of the imaginary portion in the R2HC output.
     const size_t imbeg = ctx->sample_winsize - 1;
 
     float x0 = 0;
-    for(size_t i = begin_bin; i < ctx->dft_outsize; ++i) {
+    for(size_t i = begin_bin; i < end_bin; ++i) {
         float y = hypotf(ctx->dft_out[imbeg - i], ctx->dft_out[i]),
-              x1 = (log10f(i * freq_c) - LOG_MIN) * pc0_;
+              x1 = (log10f(i * freq_coeff) - LOG_MIN) * bin_scale;
 
         y /= ctx->sample_winsize;  // 1/N
         y *= height/ctx->maxvol; // scale to screen
